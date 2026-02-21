@@ -41,4 +41,5 @@ Resources:
 Outputs:
   StateBucketName:
     Value: !Ref TerraformStateBucket
-  DynamoDBTableName: !Ref TerraformLockTable
+  DynamoDBTableName:
+    Value: !Ref TerraformLockTable

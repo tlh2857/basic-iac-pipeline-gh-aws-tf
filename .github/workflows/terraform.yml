@@ -8,7 +8,7 @@ on:
 
 permissions:
   id-token: write # Required for AWS OIDC authentication
-  contents: read
+  contents: write # Required for yor-action to push tagging changes
 
 jobs:
   terraform:
@@ -21,7 +21,7 @@ jobs:
       - name: Configure AWS Credentials
         uses: aws-actions/configure-aws-credentials@v4
         with:
-          aws-region: us-east-1
+          aws-region: ${{ secrets.TF_BACKEND_REGION }}
           # Requires these secrets to be set in GitHub:
           # AWS_ACCESS_KEY_ID: <Your Access Key>
           # AWS_SECRET_ACCESS_KEY: <Your Secret Key>
@@ -36,7 +36,7 @@ jobs:
         uses: bridgecrewio/yor-action@main
 
       - name: Terraform Init
-        run: terraform init -backend-config="bucket=${{ secrets.TF_BACKEND_BUCKET }}" -backend-config="dynamodb_table=${{ secrets.TF_BACKEND_DYNAMODB_TABLE }}" -backend-config="region=us-east-1" -backend-config="key=state/terraform.tfstate"
+        run: terraform init -backend-config="bucket=${{ secrets.TF_BACKEND_BUCKET }}" -backend-config="dynamodb_table=${{ secrets.TF_BACKEND_DYNAMODB_TABLE }}" -backend-config="region=${{ secrets.TF_BACKEND_REGION }}" -backend-config="key=state/terraform.tfstate"
 
       - name: Terraform Format
         run: terraform fmt -check

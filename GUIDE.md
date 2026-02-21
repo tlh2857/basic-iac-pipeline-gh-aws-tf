@@ -20,6 +20,7 @@ For GitHub Actions to communicate with AWS, you need to store your AWS credentia
     * `AWS_SECRET_ACCESS_KEY`: Your AWS IAM Secret Key.
     * `TF_BACKEND_BUCKET`: The name of the S3 bucket from CloudFormation.
     * `TF_BACKEND_DYNAMODB_TABLE`: The name of the DynamoDB table from CloudFormation.
+    * `TF_BACKEND_REGION`: The AWS region where your CloudFormation stack was deployed (e.g., `us-west-2`).
 
 ## Step 3: Local Configuration (Optional)
 If you want to run Terraform locally, update `backend.tf` with the actual bucket name and DynamoDB table from the CloudFormation outputs.
