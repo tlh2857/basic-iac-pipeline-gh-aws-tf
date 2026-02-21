@@ -15,7 +15,8 @@ Terraform needs an S3 bucket and a DynamoDB table to store its state and manage 
 For GitHub Actions to communicate with AWS, you need to store your AWS credentials securely.
 
 1. Go to your GitHub repository: **Settings** > **Secrets and variables** > **Actions**.
-2. Create the following secrets:
+2. Create a new Secrets Environment named "TEST"
+3. Create the following secrets:
     * `AWS_ACCESS_KEY_ID`: Your AWS IAM Access Key.
     * `AWS_SECRET_ACCESS_KEY`: Your AWS IAM Secret Key.
     * `TF_BACKEND_BUCKET`: The name of the S3 bucket from CloudFormation.
