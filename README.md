@@ -79,3 +79,23 @@ Once your business application is created, try creating an AppSec Policy that di
 Go to Modules > Application Security > AppSec Policies and hit "Add Policy". Use a "Code Scanner" policy, that selects for "IaC Misconfigurations" as the finding type, that matches for Business Application Names that matches the name of your business applicaiton in the scope, and set it to block PR scan for the trigger and action. 
 
 You can read more here: https://docs-cortex.paloaltonetworks.com/r/Cortex-Cloud-Posture-Management/Code-Security/Create-Cortex-Cloud-Application-Security-policies 
+
+## Step 9: Generate a bad PR
+Now that everything is configured, try creating a PR that should get blocked by Cortex Cloud. Add the Following lines to line 3 of the main.tf file: 
+```
+  block_public_acls       = false
+  block_public_policy     = false
+  ignore_public_acls      = false
+  restrict_public_buckets = false
+  ```
+  Then hit "Commit" and Instead of "Committing directly to the main branch", tell GitHub to "Create a new Branch and Open a Pull Request". 
+
+  This should trigger a new PR scan in Cortex Cloud. Try to find the PR scan results in the PR in GitHub as well as in Cortex Cloud. 
+
+Congrats! If you've made it this far, you've: 
+- configured a basic IaC pipeline
+- hooked up Cortex Cloud to GitHub
+- Created a business applicaiton and associated appsec policy
+- genereated a PR that should be rejected by Cortex Cloud based on failing bucket policy checks
+
+
