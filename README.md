@@ -21,10 +21,20 @@ For GitHub Actions to communicate with AWS, you need to store your AWS credentia
     * `AWS_SECRET_ACCESS_KEY`: Your AWS IAM Secret Key.
     * `TF_BACKEND_BUCKET`: The name of the S3 bucket from CloudFormation.
     * `TF_BACKEND_DYNAMODB_TABLE`: The name of the DynamoDB table from CloudFormation.
-    * `TF_BACKEND_REGION`: The AWS region where your CloudFormation stack was deployed (e.g., `us-west-2`).
+    * `TF_BACKEND_REGION`: The AWS region where your CloudFormation stack was deployed (e.g., `us-east-1`).
+## Step 3: Configure GitHub Actions Permissions: 
+GitHub Actions Workflows by default can read from your repository, however they cannot write. The GitHub Action defined in the /.github/workflows/terraform.yml leverage yor to apply tags. Yor tags allow Cortex Cloud to trace IaC to deployed cloud assets. You can read more about yor here: https://yor.io/ 
 
-## Step 3: Local Configuration (Optional)
-If you want to run Terraform locally, update `backend.tf` with the actual bucket name and DynamoDB table from the CloudFormation outputs.
+In order for yor tagging to work in GitHub Actions, we'll need to enable write permissions in the repository: 
+1. On GitHub, navigate to the main page of your repository.
+2. Under your repository name, click Settings.
+3. In the left sidebar, click Actions, then select General.
+4. Scroll down to the "Workflow permissions" section.
+5. Select the Read and write permissions option.
+6. Click Save to apply the changes 
+
+## Step 3: Configuring Destination Region (Optional)
+While the GitHub Actions Secret `TF_BACKEND_REGION` should be set to the same region where you set up the CloudFormation backend, the actual region where you deploy the S3 bucket defined in the main.tf file is independnent of the backend region. If you wish to update the region where the S3 bucket will be deployed, then update the region defined in the variables.tf file. By default it is in us-east-1. 
 
 ## Step 4: The CI/CD Workflow
 The pipeline in `.github/workflows/terraform.yml` performs the following on every pull request:
